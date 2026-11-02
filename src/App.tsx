@@ -2,7 +2,14 @@ import { useEffect, useRef, type ReactNode } from 'react';
 import { Footer } from './components/Footer';
 import { Header } from './components/Header';
 import { BrowsePage } from './pages/BrowsePage';
+import { Gate } from './components/Gate';
 import { ComingSoon, NotFound } from './pages/ComingSoon';
+import { ApplyPage } from './pages/ApplyPage';
+import { AuthPage } from './pages/AuthPage';
+import { DashboardPage } from './pages/DashboardPage';
+import { OrganizationsPage } from './pages/OrganizationsPage';
+import { PhonePage } from './pages/PhonePage';
+import { ProfilePage } from './pages/ProfilePage';
 import { HomePage } from './pages/HomePage';
 import { SavedPage } from './pages/SavedPage';
 import { useRoute, type Route } from './lib/router';
@@ -29,17 +36,21 @@ function resolve(route: Route): Resolved {
     case 'liked': // the old site's address for the same page
       return { title: 'Saved', node: <SavedPage /> };
     case 'login':
+      return { title: 'Sign in', node: <AuthPage mode="login" /> };
     case 'register':
+      return { title: 'Create your account', node: <AuthPage mode="register" /> };
     case 'forgot':
-      return { title: 'Sign in', node: <ComingSoon title="Sign in" part={2} about="Sign in with email or phone to keep your profile and applications." /> };
+      return { title: 'Reset your password', node: <AuthPage mode="forgot" /> };
     case 'profile':
-      return { title: 'Profile', node: <ComingSoon title="Your profile" part={2} about="Skills, projects and cities, so Fyndr can match you to roles." /> };
+      return { title: 'Profile', node: <Gate roles={['user']}><ProfilePage /></Gate> };
     case 'dashboard':
-      return { title: 'Dashboard', node: <ComingSoon title="Dashboard" part={2} about="Your matches, applications and the courses that close your gaps." /> };
+      return { title: 'Dashboard', node: <DashboardPage /> };
+    case 'phone':
+      return { title: 'Verify your phone', node: <Gate roles={['user', 'org']}><PhonePage /></Gate> };
     case 'apply':
-      return { title: 'Apply', node: <ComingSoon title="Apply" part={2} about="Apply to listings posted by organizations." /> };
+      return { title: 'Apply', node: <ApplyPage id={route.segments[1] ?? ''} key={route.segments[1]} /> };
     case 'organizations':
-      return { title: 'Organizations', node: <ComingSoon title="Organizations" part={2} about="Organizations that post openings on Fyndr." /> };
+      return { title: 'For organizations', node: <OrganizationsPage /> };
     case 'library':
       return { title: 'Library', node: <ComingSoon title="Library" part={3} about="Free books from Open Library, Project Gutenberg and more." /> };
     case 'community':

@@ -1,3 +1,4 @@
+import { useAuth } from '../lib/auth';
 import { Link, useRoute } from '../lib/router';
 import { useSaved } from '../lib/saved';
 import { useTheme } from '../lib/theme';
@@ -16,6 +17,7 @@ export function Header() {
   const { path } = useRoute();
   const { theme, toggle } = useTheme();
   const saved = useSaved();
+  const auth = useAuth();
   const on = (to: string): boolean => path === to || path.startsWith(to + '/');
 
   return (
@@ -37,9 +39,24 @@ export function Header() {
           <button type="button" className="icon-btn" onClick={toggle} aria-label={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}>
             {theme === 'dark' ? <SunIcon /> : <MoonIcon />}
           </button>
-          <Link to="/login" className="btn btn--solid btn--small">
-            Sign in
-          </Link>
+          {auth.phase === 'ready' && auth.me ? (
+            <details className="menu">
+              <summary className="menu__btn" aria-label="Account menu">
+                {auth.me.photo ? <img className="avatar" src={auth.me.photo} alt="" /> : <span className="avatar" aria-hidden="true">{auth.me.name.slice(0, 1).toUpperCase()}</span>}
+              </summary>
+              <div className="menu__list">
+                <p className="menu__who">{auth.me.role === 'org' ? auth.me.orgName : auth.me.name}</p>
+                <Link to="/dashboard" className="menu__item">Dashboard</Link>
+                {auth.me.role === 'user' && <Link to="/profile" className="menu__item">Profile</Link>}
+                {!auth.me.phoneVerified && auth.me.role !== 'moderator' && auth.me.role !== 'admin' && <Link to="/phone" className="menu__item">Verify phone</Link>}
+                <button type="button" className="menu__item" onClick={() => void auth.logout()}>Sign out</button>
+              </div>
+            </details>
+          ) : auth.phase === 'loading' ? null : (
+            <Link to="/login" className="btn btn--solid btn--small">
+              Sign in
+            </Link>
+          )}
         </div>
       </div>
     </header>
