@@ -1,0 +1,86 @@
+/* Fyndr design tokens. One cool, paper-blue ground, deep navy ink, one cobalt for action.
+   Kind colours carry meaning: job = cobalt, internship = amber, course = teal. Colour is never the only signal (every row also says its kind). */
+:root {
+  --font: 'Schibsted Grotesk', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Noto Sans', sans-serif;
+
+  --mist: #e8eef5;
+  --surface: #f7f9fc;
+  --raised: #ffffff;
+  --ink: #0e2240;
+  --ink-soft: #435673;
+  --line: #c9d5e3;
+  --line-strong: #8fa3bd;
+  --hover: #eef3fa;
+
+  --cobalt: #2342e6;
+  --cobalt-ink: #ffffff;
+  --cobalt-soft: #dde4fd;
+  --focus: #2342e6;
+
+  --kind-job: #2342e6;
+  --kind-job-text: #1f3bcf;
+  --kind-internship: #e08a00;
+  --kind-internship-text: #8f4d00;
+  --kind-course: #0b8a7c;
+  --kind-course-text: #08665c;
+  --free-bg: #d3f0e8;
+  --free-text: #07594f;
+
+  --r-sm: 8px;
+  --r-md: 12px;
+  --r-lg: 18px;
+  --maxw: 1120px;
+  --gutter: clamp(1rem, 4vw, 2rem);
+  color-scheme: light;
+}
+
+:root[data-theme='dark'] {
+  --mist: #0b1527;
+  --surface: #111e35;
+  --raised: #162744;
+  --ink: #e8eef9;
+  --ink-soft: #a3b4cf;
+  --line: #25395a;
+  --line-strong: #4a6491;
+  --hover: #15243f;
+  --cobalt: #6f88ff;
+  --cobalt-ink: #0b1527;
+  --cobalt-soft: #1c2c57;
+  --focus: #9db0ff;
+  --kind-job: #7f95ff;
+  --kind-job-text: #9db0ff;
+  --kind-internship: #ffb02e;
+  --kind-internship-text: #ffc55f;
+  --kind-course: #2fd0bd;
+  --kind-course-text: #5fe0d0;
+  --free-bg: #0f3b38;
+  --free-text: #7ff0de;
+  color-scheme: dark;
+}
+
+/* Same dark values for people whose system is dark, before the script has run (no flash). */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --mist: #0b1527;
+    --surface: #111e35;
+    --raised: #162744;
+    --ink: #e8eef9;
+    --ink-soft: #a3b4cf;
+    --line: #25395a;
+    --line-strong: #4a6491;
+    --hover: #15243f;
+    --cobalt: #6f88ff;
+    --cobalt-ink: #0b1527;
+    --cobalt-soft: #1c2c57;
+    --focus: #9db0ff;
+    --kind-job: #7f95ff;
+    --kind-job-text: #9db0ff;
+    --kind-internship: #ffb02e;
+    --kind-internship-text: #ffc55f;
+    --kind-course: #2fd0bd;
+    --kind-course-text: #5fe0d0;
+    --free-bg: #0f3b38;
+    --free-text: #7ff0de;
+    color-scheme: dark;
+  }
+}
