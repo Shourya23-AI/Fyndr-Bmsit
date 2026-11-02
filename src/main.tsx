@@ -7,6 +7,7 @@ import './styles/tokens.css';
 import './styles/base.css';
 import './styles/components.css';
 import './styles/part2.css';
+import './styles/skin.css';
 
 initTheme();
 

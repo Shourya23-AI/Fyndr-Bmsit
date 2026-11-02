@@ -1,20 +1,19 @@
 import { Link } from '../lib/router';
 
-export function LogoMark({ size = 30 }: { size?: number }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 32 32" aria-hidden="true" focusable="false">
-      <rect width="32" height="32" rx="9" fill="var(--cobalt)" />
-      <circle cx="14.5" cy="14.5" r="6" fill="none" stroke="#fff" strokeWidth="3" />
-      <path d="M19.2 19.2 25 25" stroke="#fff" strokeWidth="3.2" strokeLinecap="round" />
-    </svg>
-  );
+export const BRAND = 'Fyndr';
+
+/** The brand mark from the reference board: navy F, rising arrow, orange search lens. */
+export function LogoMark({ height = 38 }: { height?: number }) {
+  return <img className="logo__mark" src={`${import.meta.env.BASE_URL}brand/logo-mark.png`} alt="" height={height} style={{ height }} />;
 }
 
 export function Logo() {
   return (
-    <Link to="/" className="logo" aria-label="Fyndr home">
+    <Link to="/" className="logo" aria-label={`${BRAND} home`}>
       <LogoMark />
-      <span className="logo__word">fyndr</span>
+      <span className="logo__word">
+        Fynd<b>r</b>
+      </span>
     </Link>
   );
 }

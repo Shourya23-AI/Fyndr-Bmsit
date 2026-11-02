@@ -3,7 +3,12 @@ import { Footer } from './components/Footer';
 import { Header } from './components/Header';
 import { BrowsePage } from './pages/BrowsePage';
 import { Gate } from './components/Gate';
-import { ComingSoon, NotFound } from './pages/ComingSoon';
+import { NotFound } from './pages/ComingSoon';
+import { CommunityPage } from './pages/CommunityPage';
+import { GroupsPage } from './pages/GroupsPage';
+import { LibraryPage } from './pages/LibraryPage';
+import { ContactPage, PrivacyPage, TermsPage } from './pages/LegalPages';
+import { applySeo } from './lib/seo';
 import { ApplyPage } from './pages/ApplyPage';
 import { AuthPage } from './pages/AuthPage';
 import { DashboardPage } from './pages/DashboardPage';
@@ -18,6 +23,20 @@ interface Resolved {
   title: string;
   node: ReactNode;
 }
+
+const DEFAULT_DESC = 'Search jobs, internships and free courses in one place. Fyndr: Jobs | Courses | Growth.';
+const DESCRIPTIONS: Record<string, string> = {
+  jobs: 'Fresher jobs by city, with the best job sites to search first.',
+  internships: 'Internships for students and freshers, with direct links to each site\'s search.',
+  courses: 'Free and paid online courses in coding, data, design and more.',
+  library: 'Guides, cheat sheets, study material and free books in one searchable library.',
+  community: 'Join open communities for learners and job seekers on Fyndr.',
+  groups: 'Private study groups and cohorts on Fyndr, led by the person who made them.',
+  organizations: 'Post jobs and internships and review applicants on Fyndr.',
+  terms: 'The rules for using Fyndr.',
+  privacy: 'What Fyndr keeps, why, and for how long.',
+  contact: 'How to reach the Fyndr team.',
+};
 
 function resolve(route: Route): Resolved {
   const first = route.segments[0] ?? '';
@@ -52,17 +71,17 @@ function resolve(route: Route): Resolved {
     case 'organizations':
       return { title: 'For organizations', node: <OrganizationsPage /> };
     case 'library':
-      return { title: 'Library', node: <ComingSoon title="Library" part={3} about="Free books from Open Library, Project Gutenberg and more." /> };
+      return { title: 'Library and resources', node: <LibraryPage /> };
     case 'community':
-      return { title: 'Community', node: <ComingSoon title="Community" part={3} about="Join communities and post in them." /> };
+      return { title: 'Community', node: <Gate><CommunityPage id={route.segments[1] ?? ''} /></Gate> };
     case 'groups':
-      return { title: 'Groups', node: <ComingSoon title="Groups" part={3} about="Private groups, led by the person who made them." /> };
+      return { title: 'Groups', node: <Gate><GroupsPage id={route.segments[1] ?? ''} /></Gate> };
     case 'terms':
-      return { title: 'Terms', node: <ComingSoon title="Terms" part={3} about="The rules for using Fyndr." /> };
+      return { title: 'Terms', node: <TermsPage /> };
     case 'privacy':
-      return { title: 'Privacy', node: <ComingSoon title="Privacy" part={3} about="What Fyndr keeps and for how long." /> };
+      return { title: 'Privacy', node: <PrivacyPage /> };
     case 'contact':
-      return { title: 'Contact', node: <ComingSoon title="Contact" part={3} about="How to reach the Fyndr team." /> };
+      return { title: 'Contact', node: <ContactPage /> };
     default:
       return { title: 'Page not found', node: <NotFound /> };
   }
@@ -75,7 +94,7 @@ export function App() {
   const { title, node } = resolve(route);
 
   useEffect(() => {
-    document.title = route.path === '/' ? `Fyndr: ${title}` : `${title} - Fyndr`;
+    applySeo(title, DESCRIPTIONS[first] ?? DEFAULT_DESC, route.path);
     if (first.current) {
       first.current = false;
       return;
@@ -98,7 +117,9 @@ export function App() {
       </a>
       <Header />
       <main id="main" ref={main} tabIndex={-1}>
-        {node}
+        <div className="route" key={route.path}>
+          {node}
+        </div>
       </main>
       <Footer />
     </>

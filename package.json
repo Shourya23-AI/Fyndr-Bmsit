@@ -1,6 +1,6 @@
 {
   "name": "fyndr-web",
-  "version": "2.0.0-part2",
+  "version": "2.0.0",
   "private": true,
   "type": "module",
   "description": "Fyndr front end, rebuilt in TypeScript. Jobs, internships and courses from one search box.",
